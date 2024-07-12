@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Point Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .story-points { font-size: 2em; margin-bottom: 20px; }
+        table { margin: 0 auto; border-collapse: collapse; width: 80%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        .disabled { opacity: 0.5; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+<div class="story-points" id="story-points">Select story points for each category:</div>
+<div class="details" id="details"></div>
+
+<table>
+    <tr>
+        <th>Category</th>
+        <th>Low</th>
+        <th>Medium</th>
+        <th>High</th>
+    </tr>
+    <tr>
+        <td>Complexity (30%)</td>
+        <td><input type="radio" name="complexity" value="1" onclick="calculateStoryPoints()"></td>
+        <td><input type="radio" name="complexity" value="5" onclick="calculateStoryPoints()"></td>
+        <td><input type="radio" name="complexity" value="13" onclick="calculateStoryPoints()"></td>
+    </tr>
+    <tr>
+        <td>Effort (30%)</td>
+        <td><input type="radio" name="effort" value="1" onclick="calculateStoryPoints()"></td>
+        <td><input type="radio" name="effort" value="5" onclick="calculateStoryPoints()"></td>
+        <td><input type="radio" name="effort" value="13" onclick="calculateStoryPoints()"></td>
+    </tr>
+    <tr>
+        <td>Risk (20%)</td>
+        <td><input type="radio" name="risk" value="1" onclick="calculateStoryPoints()"></td>
+        <td><input type="radio" name="risk" value="5" onclick="calculateStoryPoints()"></td>
+        <td><input type="radio" name="risk" value="13" onclick="calculateStoryPoints()"></td>
+    </tr>
+    <tr>
+        <td>Dependency (20%)</td>
+        <td><input type="radio" name="dependency" value="1" onclick="calculateStoryPoints()"></td>
+        <td><input type="radio" name="dependency" value="5" onclick="calculateStoryPoints()"></td>
+        <td><input type="radio" name="dependency" value="13" onclick="calculateStoryPoints()"></td>
+    </tr>
+</table>
+
+<script>
+    // Function to find the nearest Fibonacci number
+    function nearestFibonacci(n) {
+        const fibonacci = [1, 2, 3, 5, 8, 13]; // Fibonacci sequence
+
+        let closest = fibonacci[0];
+        for (let i = 1; i < fibonacci.length; i++) {
+            if (Math.abs(n - fibonacci[i]) < Math.abs(n - closest)) {
+                closest = fibonacci[i];
+            }
+        }
+
+        return closest;
+    }
+
+    function calculateStoryPoints() {
+        const complexity = parseFloat(document.querySelector('input[name="complexity"]:checked').value);
+        const effort = parseFloat(document.querySelector('input[name="effort"]:checked').value);
+        const risk = parseFloat(document.querySelector('input[name="risk"]:checked').value);
+        const dependency = parseFloat(document.querySelector('input[name="dependency"]:checked').value);
+
+        // Calculate weighted average
+        const complexityWeight = 0.3;
+        const effortWeight = 0.3;
+        const riskWeight = 0.2;
+        const dependencyWeight = 0.2;
+
+        const weightedPoints = (complexity * complexityWeight) +
+                               (effort * effortWeight) +
+                               (risk * riskWeight) +
+                               (dependency * dependencyWeight);
+
+        // Round to the nearest Fibonacci number
+        const storyPoints = nearestFibonacci(weightedPoints);
+
+        // Display results
+        document.getElementById('story-points').innerText = `Selected story points for each category:`;
+        document.getElementById('details').innerHTML = `
+            <p>Complexity: ${complexity}, Effort: ${effort}, Risk: ${risk}, Dependency: ${dependency}</p>
+            <p>Weighted Story Points: ${storyPoints}</p>
+        `;
+    }
+</script>
+
+</body>
+</html>
